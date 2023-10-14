@@ -16,6 +16,8 @@ using UnityEngine.InputSystem.UI;
 //this is continuation of main;
 //this is Wilson's comment
 
+// this is Najib 
+
 public class player : MonoBehaviour
 {
     public float selfSpeed;

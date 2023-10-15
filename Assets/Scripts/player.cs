@@ -22,7 +22,6 @@ using UnityEngine.InputSystem.UI;
 public class player : MonoBehaviour
 {
     public float selfSpeed;
-    //public GameObject camFollow;
 
     public bool isMoving; //i.e. input detected
 
@@ -91,7 +90,28 @@ public class player : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        
+        if (collision.gameObject.tag == "fakewall")
+        {
+            Vector3 theNormal = collision.contacts[0].normal;
+            theNormal.Normalize();
+            Vector3 myVel = selfRigid.velocity;
+            selfRigid.velocity = Vector3.zero;
+            myVel = Vector3.ProjectOnPlane(myVel, theNormal);
+            selfRigid.velocity = myVel;
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.tag == "fakewall")
+        {
+            Vector3 theNormal = collision.contacts[0].normal;
+            theNormal.Normalize();
+            Vector3 myVel = selfRigid.velocity;
+            selfRigid.velocity = Vector3.zero;
+            myVel = Vector3.ProjectOnPlane(myVel, theNormal);
+            selfRigid.velocity = myVel;
+        }
     }
 
     public void DoKoStuff()

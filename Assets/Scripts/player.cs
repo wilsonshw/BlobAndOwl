@@ -143,12 +143,10 @@ public class player : MonoBehaviour
 
     IEnumerator BlinkRevert()
     {
-
         yield return new WaitForSeconds(0.1f);
         if (BlinkCo != null)
             StopCoroutine(BlinkCo);
         BlinkCo = Blink();
-
     }
 
     public void NormalMoveStuff()
@@ -230,7 +228,7 @@ public class player : MonoBehaviour
     {
        if(value.performed)
         {
-            if (!isAtk)
+            if (!isAtk && !selfAnim.GetCurrentAnimatorStateInfo(0).IsName("gunfire"))
                 DoAtk();
         }
     }

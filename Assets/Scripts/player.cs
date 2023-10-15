@@ -50,6 +50,11 @@ public class player : MonoBehaviour
 
     IEnumerator BlinkCo;
     IEnumerator BlinkRevertCo;
+
+    public GameObject bulletPrefab;
+    public Transform bulletSpawnPoint;
+
+    public ParticleSystem gunSmoke;
     // Start is called before the first frame update
     void Start()
     {       
@@ -238,6 +243,8 @@ public class player : MonoBehaviour
         isAtk = true;
         ResetAnims();
         selfAnim.SetInteger("gunfire", 1);
+        SpawnBullet();
+        gunSmoke.Play();
     }
 
     void FalsifyAtk()
@@ -261,5 +268,14 @@ public class player : MonoBehaviour
     public bool AllowMove()
     {
         return !isAtk;
+    }
+
+    public void SpawnBullet()
+    {
+        var inst = Instantiate(bulletPrefab, bulletSpawnPoint.position, Quaternion.identity) as GameObject;
+        if (GetComponent<playerraycast>().targetObj)
+            inst.GetComponent<bullet>().targetObj = GetComponent<playerraycast>().targetObj;
+        inst.GetComponent<bullet>().moveMe = true;
+        inst.transform.LookAt(inst.transform.position + bulletSpawnPoint.transform.forward);
     }
 }

@@ -27,11 +27,21 @@ public class playerraycast : MonoBehaviour
                 myMarker.transform.position = theColl.transform.TransformPoint(theColl.center);
                 targetObj = rayHit.transform.gameObject;
             }
+            else
+            {
+                if (myMarker.activeSelf)
+                    myMarker.SetActive(false);
+
+                if(targetObj)
+                    targetObj = null;
+            }
         }
         else
         {
             if (myMarker.activeSelf)
                 myMarker.SetActive(false);
+            if(targetObj)
+                targetObj = null;
         }
     }
 }

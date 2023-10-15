@@ -1,5 +1,5 @@
 {
-    "name": "PlayerControls",
+    "name": "Player2Controls",
     "maps": [
         {
             "name": "theplayer",
@@ -138,6 +138,17 @@
                 {
                     "name": "",
                     "id": "78d8f3a5-cd5f-4537-9564-d95179b184f7",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "13b7aab3-21ca-4996-9a03-4ef75289c5be",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
@@ -156,6 +167,11 @@
             "devices": [
                 {
                     "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
                     "isOptional": false,
                     "isOR": false
                 }

@@ -24,6 +24,7 @@ public class player : MonoBehaviour
     public float selfSpeed;
 
     public bool isMoving; //i.e. input detected
+    public bool isAtk;
 
     public Vector2 inputVec;
 
@@ -64,8 +65,11 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        NormalMoveStuff();
-        NormalSlerpStuff();
+        if (AllowMove())
+        {
+            NormalMoveStuff();
+            NormalSlerpStuff();
+        }
     }
 
     private void LateUpdate()
@@ -224,7 +228,24 @@ public class player : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext value)
     {
-       
+       if(value.performed)
+        {
+            if (!isAtk)
+                DoAtk();
+        }
+    }
+
+    void DoAtk()
+    {
+        isAtk = true;
+        ResetAnims();
+        selfAnim.SetInteger("gunfire", 1);
+    }
+
+    void FalsifyAtk()
+    {
+        isAtk = false;
+        ResetAnims();
     }
 
     public void OnPause(InputAction.CallbackContext value)
@@ -239,4 +260,8 @@ public class player : MonoBehaviour
         selfAnim.SetInteger("gunfire", 0);
     }
 
+    public bool AllowMove()
+    {
+        return !isAtk;
+    }
 }

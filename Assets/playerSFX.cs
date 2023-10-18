@@ -16,6 +16,11 @@ public class playerSFX : MonoBehaviour
         rangedShot.Play();
     }
 
+    public void PlayMeleeSwing()
+    {
+        meleeSwing.Play();
+    }
+
 
 
 

@@ -19,10 +19,16 @@ public class enemybasic : MonoBehaviour
     public float atkTimer;
     public Animator selfAnim;
 
+    public float impactDist; //knockback distance
+    public bool isKB; //isknocked back
+
+    public int selfHP;
+    public int maxHP;
+    public SphereCollider myColl;
     // Start is called before the first frame update
     void Start()
     {
-        
+        selfHP = maxHP;
     }
 
     // Update is called once per frame
@@ -37,25 +43,26 @@ public class enemybasic : MonoBehaviour
                 else
                 {
                     CalculateMyDest();
-                    cdToDestCalc = 0.2f;
+                    cdToDestCalc = 0.05f;
                 }
             }       
 
-            if(isNearEnough)
+            if (!isAtk && !selfAnim.GetCurrentAnimatorStateInfo(0).IsName("gunfire"))
             {
-                if (!isAtk && !selfAnim.GetCurrentAnimatorStateInfo(0).IsName("gunfire"))
+                if (atkCd >= 0)
+                    atkCd -= Time.deltaTime;
+                else
                 {
-                    if (atkCd >= 0)
-                        atkCd -= Time.deltaTime;
-                    else
+                    if (isNearEnough && !isKB)
                     {
                         DoAttack();
                         atkCd = atkTimer;
                     }
                 }
-            }          
-            LookAtTarget();
-           // myNav.SetDestination(myTarget.position);
+            }
+        
+            if(CanSlerp())
+                LookAtTarget();
         }
     }
 
@@ -63,21 +70,42 @@ public class enemybasic : MonoBehaviour
     {
         if(Vector3.Distance(transform.position,myTarget.position) > myDist)
         {
-            if (!selfAnim.GetCurrentAnimatorStateInfo(0).IsName("move"))
+            Vector3 dir = transform.position - myTarget.position;
+            dir.y = transform.position.y;
+            dir.Normalize();
+            myDest = myTarget.position + dir * myDist;
+
+            if (Vector3.Distance(transform.position, myDest) >= 0.05f)
             {
-                ResetAnims();
-                selfAnim.SetInteger("move", 1);
+                if (!selfAnim.GetCurrentAnimatorStateInfo(0).IsName("move"))
+                {
+                    ResetAnims();
+                    selfAnim.SetInteger("move", 1);
+                }
+               
+                isNearEnough = false;
+            }
+            else
+            {
+                if (!isAtk)
+                {
+                    ResetAnims();
+                    selfAnim.SetInteger("idle", 1);
+                }
+                myDest = transform.position;
+                isNearEnough = true;
             }
 
-            Vector3 dir = myTarget.position - transform.position;
-            dir.y = 0;
-            dir.Normalize();
-            myDest = myTarget.position - dir * myDist;
             myNav.SetDestination(myDest);
-            isNearEnough = false;                    
+
         }
         else
         {
+            if (!isAtk)
+            {
+                ResetAnims();
+                selfAnim.SetInteger("idle", 1);
+            }
             myNav.SetDestination(transform.position);
             isNearEnough = true;
         }
@@ -115,5 +143,33 @@ public class enemybasic : MonoBehaviour
         selfAnim.SetInteger("idle", 0);
         selfAnim.SetInteger("move", 0);
         selfAnim.SetInteger("gunfire", 0);
+    }
+
+    bool CanSlerp()
+    {
+        return !isAtk && !isKB;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "atk")
+        {
+            damagestats sc = other.GetComponent<damagestats>();
+            Color theColor = Color.yellow;
+            Vector3 theSize = new Vector3(1, 1, 1);
+            int dmg = Mathf.RoundToInt(sc.effectiveDMG);
+            int crit = Mathf.RoundToInt(sc.effectiveCRIT);
+
+            int rando = Random.Range(0, 100); //roll 0 ~ 99
+            if (rando < crit)
+            {
+                dmg *= 2;
+                theColor = Color.red;
+                theSize *= 2;
+            }
+
+            Vector3 popupPos = transform.position + Vector3.up * (myColl.radius * transform.localScale.x * 2);
+            sc.myParent.DmgPopUp(dmg, popupPos, theColor, theSize);
+        }
     }
 }

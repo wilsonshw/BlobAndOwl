@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partName: Average Pommel
   partType: pommel
-  dmg: 0
+  dmg: 4
   def: 0
   aoe: 0
   cooldown: 0
-  critRate: 0
+  critRate: 5

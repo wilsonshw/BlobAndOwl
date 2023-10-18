@@ -61,6 +61,11 @@ public class player : MonoBehaviour
 
     public UI_manager ourMenu;
     public JAR_StatController statCont;
+
+    public damagestats meleeStats;
+    public damagestats rangeStats;
+
+    public GameObject popupParent;
     // Start is called before the first frame update
     void Start()
     {       
@@ -246,11 +251,19 @@ public class player : MonoBehaviour
 
     void DoAtk()
     {
-        //Debug.Log(statCont.GetEffectiveDMG());
+        if (selfAnim.runtimeAnimatorController == meleeCont)
+        {
+            meleeStats.effectiveDMG = statCont.GetEffectiveDMG();
+            meleeStats.effectiveCRIT = statCont.GetEffectiveCritRate();
+            meleeStats.effectiveDEF = statCont.GetEffectiveDEF();
+            meleeStats.effectiveAOE = statCont.GetEffectiveAoE();
+            meleeStats.effectiveCD = statCont.GetEffectiveCooldown();
+        }
+
         isAtk = true;
         ResetAnims();
         selfAnim.SetInteger("gunfire", 1);
-        if (selfAnim == rangeCont)
+        if (selfAnim.runtimeAnimatorController == rangeCont)
         {
             SpawnBullet();
             gunSmoke.Play();
@@ -298,5 +311,23 @@ public class player : MonoBehaviour
             inst.GetComponent<bullet>().targetObj = GetComponent<playerraycast>().targetObj;
         inst.GetComponent<bullet>().moveMe = true;
         inst.transform.LookAt(inst.transform.position + bulletSpawnPoint.transform.forward);
+    }
+
+    public void DmgPopUp(int theDmg, Vector3 thePos, Color theColor, Vector3 theSize)
+    {
+        for (int i = 0; i < popupParent.transform.childCount; i++)
+        {
+            GameObject myChild = popupParent.transform.GetChild(i).gameObject;
+            if (!myChild.activeSelf)
+            {
+                myChild.transform.position = thePos;
+                tweenme sc = myChild.GetComponent<tweenme>();
+                sc.myText.text = theDmg.ToString();
+                sc.myText.color = theColor;
+                myChild.transform.localScale = theSize;
+                myChild.SetActive(true);
+                break;
+            }
+        }
     }
 }

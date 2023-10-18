@@ -55,6 +55,12 @@ public class player : MonoBehaviour
     public Transform bulletSpawnPoint;
 
     public ParticleSystem gunSmoke;
+
+    public RuntimeAnimatorController rangeCont;
+    public RuntimeAnimatorController meleeCont;
+
+    public UI_manager ourMenu;
+    public JAR_StatController statCont;
     // Start is called before the first frame update
     void Start()
     {       
@@ -240,11 +246,15 @@ public class player : MonoBehaviour
 
     void DoAtk()
     {
+        //Debug.Log(statCont.GetEffectiveDMG());
         isAtk = true;
         ResetAnims();
         selfAnim.SetInteger("gunfire", 1);
-        SpawnBullet();
-        gunSmoke.Play();
+        if (selfAnim == rangeCont)
+        {
+            SpawnBullet();
+            gunSmoke.Play();
+        }
     }
 
     void FalsifyAtk()
@@ -253,9 +263,20 @@ public class player : MonoBehaviour
         ResetAnims();
     }
 
-    public void OnPause(InputAction.CallbackContext value)
+    public void OnMenu(InputAction.CallbackContext value)
     {
-
+        if(!ourMenu.menuOpen)
+        {
+            ourMenu.menuOpen = true;
+            ourMenu.myMenu.SetActive(true);
+            Time.timeScale = 0;
+        }
+        else
+        {
+            ourMenu.menuOpen = false;
+            ourMenu.myMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
     }
 
     public void ResetAnims()

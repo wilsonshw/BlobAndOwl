@@ -6,7 +6,7 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Zombit_override
+  m_Name: Player_melee
   m_Controller: {fileID: 9100000, guid: 02289bdd7b8a6b44784ae90dba2ca51c, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: e78cd8f12126ac44ebe21461aefbab20, type: 2}
@@ -14,4 +14,4 @@ AnimatorOverrideController:
   - m_OriginalClip: {fileID: 7400000, guid: 6db4bc9dabb1cf14f8e7dcdd01f11d0b, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 6db4bc9dabb1cf14f8e7dcdd01f11d0b, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: 0c55783db4b63d44bbbec47f52919116, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: e6237bb010272e140a43180748f9093e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c226ab46dc0c8554682587293f6034e6, type: 2}

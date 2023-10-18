@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partName: Name
   partType: blade
-  dmg: 13
+  dmg: 1
   def: 0
   aoe: 0
   cooldown: 0
-  critRate: 0
+  critRate: 5

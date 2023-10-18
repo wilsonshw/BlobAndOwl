@@ -19,7 +19,7 @@ public class MenuNavigationManager : MonoBehaviour
 
     public void OnButtonPress_WeaponPart()
     {
-        weaponMenuPanel.DOLocalMoveX(800f, 0.5f, true);
+        weaponMenuPanel.DOLocalMoveX(800f, 0.5f, true).SetUpdate(true);
     }
 
     public void OnButtonHover_WeaponPart(string weaponPartName)

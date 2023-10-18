@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   partName: Name
   partType: grip_m
-  dmg: 1
+  dmg: 3
   def: 0
   aoe: 0
   cooldown: 0
-  critRate: 0
+  critRate: 5

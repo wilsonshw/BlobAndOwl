@@ -7,6 +7,7 @@ TagManager:
   - fakewall
   - enemy
   - bullet
+  - atk
   layers:
   - Default
   - TransparentFX

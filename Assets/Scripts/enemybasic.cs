@@ -158,7 +158,8 @@ public class enemybasic : MonoBehaviour
             Color theColor = Color.yellow;
             Vector3 theSize = new Vector3(1, 1, 1);
             int dmg = Mathf.RoundToInt(sc.effectiveDMG);
-            int crit = Mathf.RoundToInt(sc.effectiveCRIT);
+            float crit = sc.effectiveCRIT;
+            crit = Mathf.RoundToInt(crit * 100); //scale to %
 
             int rando = Random.Range(0, 100); //roll 0 ~ 99
             if (rando < crit)

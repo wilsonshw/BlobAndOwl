@@ -63,7 +63,7 @@ public class MenuNavigationManager : MonoBehaviour
 
         //JAR: set up default button placement on menu open;
         EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(defaultMenuButtonB);
+        EventSystem.current.SetSelectedGameObject(defaultMenuButtonB); //back button
 
 
         //processing menu B (according to part type);

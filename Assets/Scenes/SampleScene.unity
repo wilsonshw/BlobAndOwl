@@ -496,7 +496,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3034c63433f1a354089fad81a6fe0f61,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3034c63433f1a354089fad81a6fe0f61, type: 3}
@@ -7063,7 +7063,7 @@ Animator:
   m_GameObject: {fileID: 203758810}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 0efaeca0147d3c34abf638eedeaedff5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 02289bdd7b8a6b44784ae90dba2ca51c, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -28788,7 +28788,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3f980087ead628c40bc5444496a91daf,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f980087ead628c40bc5444496a91daf, type: 3}
@@ -36373,7 +36373,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3034c63433f1a354089fad81a6fe0f61,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3034c63433f1a354089fad81a6fe0f61, type: 3}
@@ -36700,6 +36700,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: sword_basic
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3f980087ead628c40bc5444496a91daf,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f980087ead628c40bc5444496a91daf, type: 3}
@@ -40435,6 +40440,46 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8b9105bf-097a-461d-82a4-6f06a61040a4
     m_ActionName: theplayer/Dodge[/Keyboard/leftShift,/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 59b15ca1-0bd0-4ec6-b302-20948ba14d1d
+    m_ActionName: UI/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e1c3ccd5-287e-4bc3-8615-450508d777bd
+    m_ActionName: UI/Submit[/XInputControllerWindows/buttonEast]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f76da76a-fb9f-43f2-9e4b-310b4dcf9f73
+    m_ActionName: UI/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonSouth]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 555421e5-7dd1-4aee-b32d-6e9b84d4d69b
+    m_ActionName: UI/Point[/Mouse/position,/Pen/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 786ff0f4-1271-4c03-8047-dbcbd14b5f98
+    m_ActionName: UI/Click[/Mouse/leftButton,/Pen/tip]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 528b6074-b852-4e50-bc67-7be60d7cd7a2
+    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e4c4f07f-be62-4c43-8a5c-b9bd5cd1759d
+    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 694b8bff-7cd4-4099-9789-0f73ef2d27bf
+    m_ActionName: UI/RightClick[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 83aa0213-db53-4ff7-a6ed-0ecaa35b83e2
+    m_ActionName: UI/TrackedDevicePosition
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 74a929c1-54e4-4f4b-af2e-6b70d5851e17
+    m_ActionName: UI/TrackedDeviceOrientation
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: theplayer
@@ -40499,7 +40544,7 @@ Animator:
   m_GameObject: {fileID: 2141623936}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 02289bdd7b8a6b44784ae90dba2ca51c, type: 2}
+  m_Controller: {fileID: 22100000, guid: 0efaeca0147d3c34abf638eedeaedff5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -40587,7 +40632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6b65a5532006e84ebf0b3f257dbcd5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponSlot: {fileID: 11400000, guid: e13dccb319de49641abae30c55b525a4, type: 2}
+  weaponSlot: {fileID: 11400000, guid: 141251773c18c664888c13b35c0fc6aa, type: 2}
 --- !u!1001 &2145629065
 PrefabInstance:
   m_ObjectHideFlags: 0

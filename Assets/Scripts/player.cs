@@ -385,7 +385,7 @@ public class player : MonoBehaviour
 
     public void OnDodge(InputAction.CallbackContext value)
     {
-        if (value.performed)
+        if (value.performed && Time.timeScale!=0)
         {
             if (!isDodge)
             {
@@ -453,7 +453,7 @@ public class player : MonoBehaviour
 
     public bool CanAttack()
     {
-        return !isAtk && !selfAnim.GetCurrentAnimatorStateInfo(0).IsName("gunfire") && !isDodge;
+        return !isAtk && !selfAnim.GetCurrentAnimatorStateInfo(0).IsName("gunfire") && !isDodge && Time.timeScale != 0;
     }
 
     public void SpawnBullet()

@@ -23,7 +23,7 @@ public class playerraycast : MonoBehaviour
             if(rayHit.transform.tag == "enemy")
             {
                 myMarker.SetActive(true);
-                SphereCollider theColl = rayHit.transform.GetComponent<SphereCollider>();
+                CapsuleCollider theColl = rayHit.transform.GetComponent<CapsuleCollider>();
                 myMarker.transform.position = theColl.transform.TransformPoint(theColl.center);
                 targetObj = rayHit.transform.gameObject;
             }

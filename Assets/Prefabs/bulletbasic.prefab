@@ -225,9 +225,10 @@ GameObject:
   - component: {fileID: 4417819201737620978}
   - component: {fileID: 4417819201737620977}
   - component: {fileID: 4417819201737620979}
+  - component: {fileID: 7243823805348624560}
   m_Layer: 3
   m_Name: bulletbasic
-  m_TagString: Untagged
+  m_TagString: atk
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -297,6 +298,29 @@ MonoBehaviour:
   myLifetime: 3
   selfSpeed: 5
   moveMe: 0
+--- !u!114 &7243823805348624560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4417819201737620983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06aa91224edcd0b4898e88bace971a3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectiveDMG: 0
+  effectiveCRIT: 0
+  effectiveDEF: 0
+  effectiveAOE: 0
+  effectiveCD: 0
+  effectiveIMP: 0
+  effectiveFRATE: 0
+  effectiveACC: 0
+  effectiveBULL: 0
+  effectiveRLOAD: 0
+  myParent: {fileID: 0}
 --- !u!1 &4417819202284666244
 GameObject:
   m_ObjectHideFlags: 0

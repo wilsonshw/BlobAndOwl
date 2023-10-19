@@ -21,14 +21,20 @@ using UnityEngine.InputSystem.UI;
 
 public class player : MonoBehaviour
 {
+    public float dodgeDuration;
+    public float dodgeSpeed;
+    public float invincibleDuration;
     public float selfSpeed;
 
+    public bool isDodge;
+    public bool isInvincible;
     public bool isMoving; //i.e. input detected
     public bool isAtk;
 
     public Vector2 inputVec;
 
     public Vector3 direction;
+    public Vector3 dodgeDir;
     public Vector3 lookPos;
     public Vector3 targetPos;
 
@@ -50,10 +56,14 @@ public class player : MonoBehaviour
 
     IEnumerator BlinkCo;
     IEnumerator BlinkRevertCo;
+    IEnumerator InvincibleCo;
+
+    IEnumerator DodgeCo;
 
     public GameObject bulletPrefab;
     public Transform bulletSpawnPoint;
 
+    public ParticleSystem dodgeDust;
     public ParticleSystem gunSmoke;
 
     public RuntimeAnimatorController rangeCont;
@@ -64,16 +74,13 @@ public class player : MonoBehaviour
     public JAR_StatController statCont;
 
     public damagestats meleeStats;
-    public damagestats rangeStats;
+
 
     public GameObject popupParent;
 
+    public MeshRenderer[] meshes;
+    public SkinnedMeshRenderer[] skinnedMeshes;
 
-
-
-
-
-    // Start is called before the first frame update
     void Start()
     {       
         selfHP = maxHP;
@@ -94,7 +101,12 @@ public class player : MonoBehaviour
             NormalMoveStuff();
             NormalSlerpStuff();
         }
-        
+
+        if (isDodge)
+        {
+            DoDodge();
+        }
+
     }
 
     private void LateUpdate()
@@ -104,7 +116,29 @@ public class player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-       
+        if (other.tag == "enemy")
+        {
+            if (!isInvincible)
+            {
+
+                for (int i = 0; i < meshes.Length; i++)
+                    meshes[i].enabled = false;
+
+                for (int i = 0; i < skinnedMeshes.Length; i++)
+                    skinnedMeshes[i].enabled = false;
+
+                DoBlinkRevert();
+
+                isInvincible = true;
+                if (InvincibleCo != null)
+                    StopCoroutine(InvincibleCo);
+                InvincibleCo = StopInvincible();
+                StartCoroutine(InvincibleCo);
+            }
+
+        }
+
+
     }
 
     private void OnTriggerStay(Collider other)
@@ -148,17 +182,23 @@ public class player : MonoBehaviour
        
     }
 
-    public void DoBlink()
+    public void DoBlinkRevert()
     {
-        if (BlinkCo != null)
-            StopCoroutine(BlinkCo);
-        BlinkCo = Blink();
-        StartCoroutine(BlinkCo);
+        if (BlinkRevertCo != null)
+            StopCoroutine(BlinkRevertCo);
+        BlinkRevertCo = BlinkRevert();
+        StartCoroutine(BlinkRevertCo);
     }
 
     IEnumerator Blink()
     {
         yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i < meshes.Length; i++)
+            meshes[i].enabled = false;
+
+        for (int i = 0; i < skinnedMeshes.Length; i++)
+            skinnedMeshes[i].enabled = false;
 
         if (BlinkRevertCo != null)
             StopCoroutine(BlinkRevertCo);
@@ -169,10 +209,36 @@ public class player : MonoBehaviour
     IEnumerator BlinkRevert()
     {
         yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i < meshes.Length; i++)
+            meshes[i].enabled = true;
+
+        for (int i = 0; i < skinnedMeshes.Length; i++)
+            skinnedMeshes[i].enabled = true;
+
         if (BlinkCo != null)
             StopCoroutine(BlinkCo);
         BlinkCo = Blink();
+        StartCoroutine(BlinkCo);
     }
+
+    IEnumerator StopInvincible()
+    {
+        yield return new WaitForSeconds(invincibleDuration);
+        isInvincible = false;
+        if (BlinkRevertCo != null)
+            StopCoroutine(BlinkRevertCo);
+        if (BlinkCo != null)
+            StopCoroutine(BlinkCo);
+
+        for (int i = 0; i < meshes.Length; i++)
+            meshes[i].enabled = true;
+
+        for (int i = 0; i < skinnedMeshes.Length; i++)
+            skinnedMeshes[i].enabled = true;
+
+    }
+
 
     public void NormalMoveStuff()
     {
@@ -187,6 +253,7 @@ public class player : MonoBehaviour
         float distance = selfSpeed * Time.deltaTime;
         skewedDir *= distance;
         targetPos = transform.position + skewedDir;
+        targetPos.y = transform.position.y;
         selfRigid.MovePosition(targetPos);
 
         if (inputVec == Vector2.zero)
@@ -227,6 +294,7 @@ public class player : MonoBehaviour
         }
     }
 
+
     public void NormalSlerpStuff()
     {
         lookPos = targetPos - transform.position;
@@ -251,12 +319,13 @@ public class player : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext value)
     {
-       if(value.performed)
+        if (value.performed)
         {
-            if (!isAtk && !selfAnim.GetCurrentAnimatorStateInfo(0).IsName("gunfire"))
+            if (CanAttack())
                 DoAtk();
         }
     }
+
 
     void DoAtk()
     {
@@ -314,16 +383,77 @@ public class player : MonoBehaviour
         }
     }
 
+    public void OnDodge(InputAction.CallbackContext value)
+    {
+        if (value.performed)
+        {
+            if (!isDodge)
+            {
+                FalsifyAtk();
+                isDodge = true;
+                dodgeDust.Play();
+                if (inputVec != Vector2.zero)
+                    dodgeDir = new Vector3(inputVec.x, 0, inputVec.y);
+                else
+                {
+                    dodgeDir = transform.forward;
+                    var matrix = Matrix4x4.Rotate(Quaternion.Euler(0, -45, 0));
+                    var skewedDir = matrix.MultiplyPoint3x4(dodgeDir);
+                    dodgeDir = skewedDir;
+                }
+                ResetAnims();
+                selfAnim.SetInteger("dodge", 1);
+
+                if (DodgeCo != null)
+                    StopCoroutine(DodgeCo);
+                DodgeCo = StopDodge();
+                StartCoroutine(DodgeCo);
+            }
+
+        }
+    }
+
+    void DoDodge()
+    {
+        selfRigid.velocity = Vector3.zero;
+
+        var matrix = Matrix4x4.Rotate(Quaternion.Euler(0, 45, 0));
+        var skewedDir = matrix.MultiplyPoint3x4(dodgeDir);
+
+        skewedDir = Vector3.ProjectOnPlane(skewedDir, Vector3.up);
+        skewedDir.Normalize();
+        float distance = dodgeSpeed * Time.deltaTime;
+        skewedDir *= distance;
+        targetPos = transform.position + skewedDir;
+        targetPos.y = transform.position.y;
+        selfRigid.MovePosition(targetPos);
+        transform.LookAt(targetPos);
+    }
+
+    IEnumerator StopDodge()
+    {
+        yield return new WaitForSeconds(dodgeDuration);
+        isDodge = false;
+        dodgeDust.Stop();
+        ResetAnims();
+    }
+
     public void ResetAnims()
     {
         selfAnim.SetInteger("idle", 0);
         selfAnim.SetInteger("move", 0);
         selfAnim.SetInteger("gunfire", 0);
+        selfAnim.SetInteger("dodge", 0);
     }
 
     public bool AllowMove()
     {
-        return !isAtk;
+        return !isAtk && !isDodge;
+    }
+
+    public bool CanAttack()
+    {
+        return !isAtk && !selfAnim.GetCurrentAnimatorStateInfo(0).IsName("gunfire") && !isDodge;
     }
 
     public void SpawnBullet()
@@ -333,6 +463,11 @@ public class player : MonoBehaviour
             inst.GetComponent<bullet>().targetObj = GetComponent<playerraycast>().targetObj;
         inst.GetComponent<bullet>().moveMe = true;
         inst.transform.LookAt(inst.transform.position + bulletSpawnPoint.transform.forward);
+
+        damagestats sc = inst.GetComponent<damagestats>();
+        sc.effectiveDMG = statCont.GetEffectiveDMG();
+        sc.effectiveCRIT = statCont.GetEffectiveCritRate();
+        sc.myParent = this;
     }
 
     public void DmgPopUp(int theDmg, Vector3 thePos, Color theColor, Vector3 theSize)
@@ -352,4 +487,6 @@ public class player : MonoBehaviour
             }
         }
     }
+
+
 }

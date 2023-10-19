@@ -24,7 +24,7 @@ public class enemybasic : MonoBehaviour
 
     public int selfHP;
     public int maxHP;
-    public SphereCollider myColl;
+    public CapsuleCollider myColl;
     // Start is called before the first frame update
     void Start()
     {
@@ -168,7 +168,7 @@ public class enemybasic : MonoBehaviour
                 theSize *= 2;
             }
 
-            Vector3 popupPos = transform.position + Vector3.up * (myColl.radius * transform.localScale.x * 2);
+            Vector3 popupPos = transform.position + Vector3.up * (myColl.height * transform.localScale.x);
             sc.myParent.DmgPopUp(dmg, popupPos, theColor, theSize);
         }
     }

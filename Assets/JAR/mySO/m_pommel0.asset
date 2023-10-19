@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f4dbffcf7b0197429c86be638993e52, type: 3}
   m_Name: m_pommel0
   m_EditorClassIdentifier: 
-  partName: Average Pommel
+  partName: Light
   partType: pommel
-  dmg: 4
+  dmg: 2
   def: 0
   aoe: 0
-  cooldown: 0
+  cooldown: 0.05
   critRate: 5

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bbcc2f353d631d479b2b1fae267fc4a, type: 3}
   m_Name: r_grip0
   m_EditorClassIdentifier: 
-  partName: Name
-  partType: grip_r
+  partName: Light Grip
+  partType: grip
   dmg: 0
   impact: 0
   fireRate: 0
-  accuracy: 0
+  accuracy: 3
   bullets: 0
-  reloadTime: 0
+  reloadTime: -0.5
   critRate: 0

@@ -60,12 +60,19 @@ public class player : MonoBehaviour
     public RuntimeAnimatorController meleeCont;
 
     public UI_manager ourMenu;
+    public GameObject defaultMenuButton;
     public JAR_StatController statCont;
 
     public damagestats meleeStats;
     public damagestats rangeStats;
 
     public GameObject popupParent;
+
+
+
+
+
+
     // Start is called before the first frame update
     void Start()
     {       
@@ -81,11 +88,13 @@ public class player : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
         if (AllowMove())
         {
             NormalMoveStuff();
             NormalSlerpStuff();
         }
+        
     }
 
     private void LateUpdate()
@@ -282,12 +291,25 @@ public class player : MonoBehaviour
         {
             ourMenu.menuOpen = true;
             ourMenu.myMenu.SetActive(true);
+
+            //JAR: set up default button placement on menu open;
+            //Cursor.visible = false;
+            //Cursor.lockState = CursorLockMode.Locked;
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(defaultMenuButton);
+
             Time.timeScale = 0;
         }
         else
         {
             ourMenu.menuOpen = false;
+            ourMenu.myMenu.GetComponent<MenuNavigationManager>().OnBackPress_WeaponPart();
             ourMenu.myMenu.SetActive(false);
+
+            //JAR: undo cursor locks;
+            //Cursor.visible = true;
+            //Cursor.lockState = CursorLockMode.None;
+
             Time.timeScale = 1;
         }
     }

@@ -26,4 +26,11 @@ public class WeaponSO : ScriptableObject
     public ranged_Parts r_sight;
 
 
+    [Header("Parts Inventory")]
+    public List<melee_Parts> myParts_m;
+    public List<ranged_Parts> myParts_r;
+
+
+
+
 }

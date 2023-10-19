@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bbcc2f353d631d479b2b1fae267fc4a, type: 3}
   m_Name: r_muzzle0
   m_EditorClassIdentifier: 
-  partName: Name
+  partName: Light Muzzle
   partType: muzzle
   dmg: 0
   impact: 0
@@ -20,4 +20,4 @@ MonoBehaviour:
   accuracy: 0
   bullets: 0
   reloadTime: 0
-  critRate: 0
+  critRate: 0.05

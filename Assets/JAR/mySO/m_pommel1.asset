@@ -9,15 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bbcc2f353d631d479b2b1fae267fc4a, type: 3}
-  m_Name: r_barrel0
+  m_Script: {fileID: 11500000, guid: 2f4dbffcf7b0197429c86be638993e52, type: 3}
+  m_Name: m_pommel1
   m_EditorClassIdentifier: 
-  partName: Light Barrel
-  partType: barrel
-  dmg: 13
-  impact: 1
-  fireRate: 0
-  accuracy: 1
-  bullets: 0
-  reloadTime: 1
-  critRate: 0
+  partName: Mid
+  partType: pommel
+  dmg: 7
+  def: 0
+  aoe: 0
+  cooldown: 0.12
+  critRate: 5

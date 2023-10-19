@@ -1,21 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UI_manager : MonoBehaviour
 {
     public GameObject myMenu;
     public bool menuOpen;
 
-    // Start is called before the first frame update
-    void Start()
+
+    public void CaclulateDifferences()
     {
-        
+        //dmg, impact, fireRate, accuracy, bullets, reloadTime, critRate;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //when you click "magazine";
+
+    //it will populate the parts selection template to "magazine";
+
+    //update the stats via "magazine" as well;
+
+
 }

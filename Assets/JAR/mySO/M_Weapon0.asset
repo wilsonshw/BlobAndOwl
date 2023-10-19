@@ -26,3 +26,8 @@ MonoBehaviour:
   r_muzzle: {fileID: 0}
   r_underbarrel: {fileID: 0}
   r_sight: {fileID: 0}
+  myParts_m:
+  - {fileID: 11400000, guid: e80cb534f21d96740b705d5d4d7e69f9, type: 2}
+  - {fileID: 11400000, guid: 3af322f5e08d59442a9b5b9f4132dc09, type: 2}
+  - {fileID: 11400000, guid: c377b497d18c3ca44b224cc08a9159a2, type: 2}
+  myParts: []

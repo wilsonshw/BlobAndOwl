@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f4dbffcf7b0197429c86be638993e52, type: 3}
   m_Name: m_crossguard0
   m_EditorClassIdentifier: 
-  partName: Name
+  partName: Light
   partType: crossguard
   dmg: 2
   def: 0

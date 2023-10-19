@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JAR_StatController : MonoBehaviour
 {
-    [SerializeField] private WeaponSO weaponSlot;
+    [SerializeField] public WeaponSO weaponSlot;
 
 
     //insert code to determine effective weapon output here;

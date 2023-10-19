@@ -38,12 +38,12 @@ public class MenuNavigationManager : MonoBehaviour
     {
 
         //BANDAID fix for "clicking while in menu" issue;
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
+        /*if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
         {
             EventSystem.current.SetSelectedGameObject(null);
             if (inMenuA) { EventSystem.current.SetSelectedGameObject(defaultMenuButtonA); }
             else { EventSystem.current.SetSelectedGameObject(defaultMenuButtonB); }
-        }
+        }*/
 
     }
 

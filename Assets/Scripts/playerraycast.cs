@@ -43,5 +43,17 @@ public class playerraycast : MonoBehaviour
             if(targetObj)
                 targetObj = null;
         }
+
+        if(targetObj)
+        {
+            enemybasic sc = targetObj.GetComponent<enemybasic>();
+            if(sc.isKO)
+            {
+                if (myMarker.activeSelf)
+                    myMarker.SetActive(false);
+                if (targetObj)
+                    targetObj = null;
+            }
+        }
     }
 }

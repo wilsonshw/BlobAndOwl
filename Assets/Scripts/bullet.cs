@@ -42,13 +42,13 @@ public class bullet : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "enemy")
+       /* if(other.tag == "enemy")
         {
             PerformCollision();
-        }
+        }*/
     }
 
-    void PerformCollision()
+    public void PerformCollision()
     {
         moveMe = false;
         myMesh.enabled = false;

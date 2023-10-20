@@ -14,6 +14,7 @@ public class enemybasic : MonoBehaviour
     Vector3 lookPos;
 
     public bool isAtk;
+    public bool isKO;
     public bool isNearEnough;
     public float atkCd;
     public float atkTimer;
@@ -25,16 +26,23 @@ public class enemybasic : MonoBehaviour
     public int selfHP;
     public int maxHP;
     public CapsuleCollider myColl;
+
+    public SkinnedMeshRenderer[] myMeshes;
+
+    public spawncontroller spawnCont;
+
+    public ParticleSystem poof;
     // Start is called before the first frame update
     void Start()
     {
+        poof.Play();
         selfHP = maxHP;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(myTarget)
+        if(myTarget && !isKO)
         {
             if(!isAtk)
             {
@@ -152,25 +160,62 @@ public class enemybasic : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "atk")
+        if(other.tag == "atk" || other.tag == "bullet")
         {
-            damagestats sc = other.GetComponent<damagestats>();
-            Color theColor = Color.yellow;
-            Vector3 theSize = new Vector3(1, 1, 1);
-            int dmg = Mathf.RoundToInt(sc.effectiveDMG);
-            float crit = sc.effectiveCRIT;
-            crit = Mathf.RoundToInt(crit * 100); //scale to %
-
-            int rando = Random.Range(0, 100); //roll 0 ~ 99
-            if (rando < crit)
+            if(!isKO)
             {
-                dmg *= 2;
-                theColor = Color.red;
-                theSize *= 2;
-            }
+                damagestats sc = other.GetComponent<damagestats>();
+                Color theColor = Color.yellow;
+                Vector3 theSize = new Vector3(1, 1, 1);
+                int dmg = Mathf.RoundToInt(sc.effectiveDMG);
+                float crit = sc.effectiveCRIT;
+                crit = Mathf.RoundToInt(crit * 100); //scale to %
 
-            Vector3 popupPos = transform.position + Vector3.up * (myColl.height * transform.localScale.x);
-            sc.myParent.DmgPopUp(dmg, popupPos, theColor, theSize);
+                int rando = Random.Range(0, 100); //roll 0 ~ 99
+                if (rando < crit)
+                {
+                    dmg *= 2;
+                    theColor = Color.red;
+                    theSize *= 2;
+                }
+
+                Vector3 popupPos = transform.position + Vector3.up * (myColl.height * transform.localScale.x);
+                sc.myParent.DmgPopUp(dmg, popupPos, theColor, theSize);
+
+                selfHP -= dmg;
+                if (selfHP <= 0)
+                {
+                    DoKoStuff();
+                }
+
+                if(other.tag == "bullet")
+                {
+                    bullet sc1 = other.GetComponent<bullet>();
+                    sc1.PerformCollision();
+                }
+
+            }
+            
         }
+    }
+
+    void DoKoStuff()
+    {
+        selfHP = 0;
+        poof.Play();
+        isKO = true;
+        myNav.SetDestination(transform.position);
+        for (int i = 0; i < myMeshes.Length; i++)
+            myMeshes[i].enabled = false;
+        StartCoroutine(DestroySelf());
+        if (spawnCont)
+            spawnCont.enemyCounter--;
+
+    }
+
+    IEnumerator DestroySelf()
+    {
+        yield return new WaitForSeconds(1);
+        Destroy(transform.gameObject);
     }
 }

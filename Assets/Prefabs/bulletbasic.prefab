@@ -30,7 +30,7 @@ RectTransform:
   m_GameObject: {fileID: 4417819200844050639}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.005, y: 0.005, z: 1}
+  m_LocalScale: {x: 0.0025, y: 0.0025, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4417819202284666245}
@@ -228,7 +228,7 @@ GameObject:
   - component: {fileID: 7243823805348624560}
   m_Layer: 3
   m_Name: bulletbasic
-  m_TagString: atk
+  m_TagString: bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

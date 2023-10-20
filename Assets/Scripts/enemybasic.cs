@@ -186,6 +186,11 @@ public class enemybasic : MonoBehaviour
                 if (selfHP <= 0)
                 {
                     DoKoStuff();
+                    if (spawnCont)
+                    {
+                        spawnCont.killCount++;
+                        spawnCont.currentScore.text = spawnCont.killCount.ToString();
+                    }
                 }
 
                 if(other.tag == "bullet")
@@ -199,8 +204,10 @@ public class enemybasic : MonoBehaviour
         }
     }
 
-    void DoKoStuff()
+    public void DoKoStuff()
     {
+        ResetAnims();
+        myColl.enabled = false;
         selfHP = 0;
         poof.Play();
         isKO = true;

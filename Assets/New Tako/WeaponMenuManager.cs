@@ -43,20 +43,28 @@ public class WeaponMenuManager : MonoBehaviour
         currentPage = WeaponPage.Detailview;
 
         // Swipes the page up
-        overviewPage.transform.DOLocalMoveY(450f, 0.5f, true);
-        detailviewPage.transform.DOLocalMoveY(0f, 0.5f, true);
+        overviewPage.transform.DOLocalMoveY(450f, 0.5f, true).SetUpdate(true);
+        detailviewPage.transform.DOLocalMoveY(0f, 0.5f, true).SetUpdate(true);
 
         // Scales down all the parts
         foreach (GameObject weaponObject in allWeaponParts)
-            weaponObject.transform.DOScale(Vector3.zero, 0.2f);
+            weaponObject.transform.DOScale(Vector3.zero, 0.2f).SetUpdate(true);
 
         // Saves data of selected part into memory
         selectedPartObject = selectedPartObjectPass;
         initialSelectedPartPosition = selectedPartObject.transform.localPosition;
 
         // Scales up the selected part and moves it to center
-        selectedPartObject.transform.DOScale(Vector3.one, 0.2f);
-        selectedPartObject.transform.DOLocalMove(new Vector3(0f, 60f, 0f), 0.2f, true);
+        if (selectedPartObjectPass.name == "Blade")
+        {
+            selectedPartObject.transform.DOScale(new Vector3(0.7f, 0.7f, 0.7f), 0.2f).SetUpdate(true);
+            selectedPartObject.transform.DOLocalMove(new Vector3(0f, 60f, 0f), 0.2f, true).SetUpdate(true);
+        }
+        else
+        {
+            selectedPartObject.transform.DOScale(Vector3.one, 0.2f).SetUpdate(true);
+            selectedPartObject.transform.DOLocalMove(new Vector3(0f, 60f, 0f), 0.2f, true).SetUpdate(true);
+        }
 
     }
 
@@ -65,13 +73,13 @@ public class WeaponMenuManager : MonoBehaviour
         currentPage = WeaponPage.Overview;
 
         // Swipes the page down
-        overviewPage.transform.DOLocalMoveY(0f, 0.5f, true);
-        detailviewPage.transform.DOLocalMoveY(-450f, 0.5f, true);
+        overviewPage.transform.DOLocalMoveY(0f, 0.5f, true).SetUpdate(true);
+        detailviewPage.transform.DOLocalMoveY(-450f, 0.5f, true).SetUpdate(true);
 
         // Resets scale and position of the parts
         foreach (GameObject weaponObject in allWeaponParts)
-            weaponObject.transform.DOScale(Vector3.one, 0.2f);
-        selectedPartObject.transform.DOLocalMove(initialSelectedPartPosition, 0.2f, true);
+            weaponObject.transform.DOScale(Vector3.one, 0.2f).SetUpdate(true);
+        selectedPartObject.transform.DOLocalMove(initialSelectedPartPosition, 0.2f, true).SetUpdate(true);
     }
 
     //============================= Button Methods =============================

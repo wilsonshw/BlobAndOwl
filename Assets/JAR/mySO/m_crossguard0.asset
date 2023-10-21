@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f4dbffcf7b0197429c86be638993e52, type: 3}
   m_Name: m_crossguard0
   m_EditorClassIdentifier: 
-  partName: Light
+  partName: Light Cross
   partType: crossguard
-  dmg: 2
+  dmg: 1
   def: 0
   aoe: 0
-  cooldown: 0
-  critRate: 5
+  cooldown: 0.15
+  critRate: 0.3

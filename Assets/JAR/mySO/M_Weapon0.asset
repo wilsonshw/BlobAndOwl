@@ -30,4 +30,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e80cb534f21d96740b705d5d4d7e69f9, type: 2}
   - {fileID: 11400000, guid: 3af322f5e08d59442a9b5b9f4132dc09, type: 2}
   - {fileID: 11400000, guid: c377b497d18c3ca44b224cc08a9159a2, type: 2}
-  myParts: []
+  - {fileID: 11400000, guid: 6edb13f465f62af4ba399991d067ae5f, type: 2}
+  - {fileID: 11400000, guid: b6ca77403df60a04babc9fac1a4d4f8d, type: 2}
+  - {fileID: 11400000, guid: 445a0e14587d4694eb654587f178cbd9, type: 2}
+  - {fileID: 11400000, guid: 5c05802530e4a45408bf2547da924d47, type: 2}
+  - {fileID: 11400000, guid: 8f9f734fb3cc66f4e95bea4fe92c0b05, type: 2}
+  - {fileID: 11400000, guid: d5e38aa3f35d65f4c933b013e4375c7f, type: 2}
+  - {fileID: 11400000, guid: 8ae19bd22d7be3d47ade08fda971f645, type: 2}
+  - {fileID: 11400000, guid: 74857bd6da5b7da4487765c39e2fc32c, type: 2}
+  - {fileID: 11400000, guid: 83a59782ad068db49add8718ef0def0a, type: 2}
+  myParts_r: []

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2f4dbffcf7b0197429c86be638993e52, type: 3}
-  m_Name: m_blade0
+  m_Name: m_blade1
   m_EditorClassIdentifier: 
-  partName: Light Blade
+  partName: Mid Blade
   partType: blade
-  dmg: 18
+  dmg: 35
   def: 0
-  aoe: 1
-  cooldown: 0.35
+  aoe: 1.75
+  cooldown: 0.75
   critRate: 0

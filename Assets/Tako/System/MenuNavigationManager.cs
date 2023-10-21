@@ -11,6 +11,8 @@ public class MenuNavigationManager : MonoBehaviour
     //======================== Setup ========================
     [SerializeField] JAR_StatController playerStat;
 
+    [Header("Ranged")]
+
     [SerializeField] Transform weaponMenuPanel;
     [SerializeField] TextMeshProUGUI weaponPartSelectedText;
     [SerializeField] GameObject defaultMenuButtonA; //this is the same as magazine;
@@ -32,7 +34,6 @@ public class MenuNavigationManager : MonoBehaviour
     [SerializeField] AudioSource equipSFX;
 
     private bool inMenuA = true; //used to check if in the outer menu or the detailed menu;
-
 
     private void Update()
     {
@@ -75,6 +76,8 @@ public class MenuNavigationManager : MonoBehaviour
     public void ProcessMenuB()
     {
 
+        PrintCurrentStats();
+
         //NOTE: later can put a check here to switch between melee and ranged by checking SO;
 
         RevertButtonColour();
@@ -106,6 +109,7 @@ public class MenuNavigationManager : MonoBehaviour
             {
                 if (partsDisplayButtons[counter].GetComponent<buttonContent>().myParts_r.partName == playerStat.weaponSlot.r_magazine.partName)
                 {
+                    defaultMenuButtonB = partsDisplayButtons[counter];
                     HighlightEquipped(partsDisplayButtons[counter]);
                     ApplyEquipText(equippedTexts[counter]);
                 }
@@ -115,6 +119,7 @@ public class MenuNavigationManager : MonoBehaviour
             {
                 if (partsDisplayButtons[counter].GetComponent<buttonContent>().myParts_r.partName == playerStat.weaponSlot.r_grip.partName)
                 {
+                    defaultMenuButtonB = partsDisplayButtons[counter];
                     HighlightEquipped(partsDisplayButtons[counter]);
                     ApplyEquipText(equippedTexts[counter]);
                 }
@@ -124,6 +129,7 @@ public class MenuNavigationManager : MonoBehaviour
             {
                 if (partsDisplayButtons[counter].GetComponent<buttonContent>().myParts_r.partName == playerStat.weaponSlot.r_trigger.partName)
                 {
+                    defaultMenuButtonB = partsDisplayButtons[counter];
                     HighlightEquipped(partsDisplayButtons[counter]);
                     ApplyEquipText(equippedTexts[counter]);
                 }
@@ -133,6 +139,7 @@ public class MenuNavigationManager : MonoBehaviour
             {
                 if (partsDisplayButtons[counter].GetComponent<buttonContent>().myParts_r.partName == playerStat.weaponSlot.r_barrel.partName)
                 {
+                    defaultMenuButtonB = partsDisplayButtons[counter];
                     HighlightEquipped(partsDisplayButtons[counter]);
                     ApplyEquipText(equippedTexts[counter]);
                 }
@@ -142,6 +149,7 @@ public class MenuNavigationManager : MonoBehaviour
             {
                 if (partsDisplayButtons[counter].GetComponent<buttonContent>().myParts_r.partName == playerStat.weaponSlot.r_sight.partName)
                 {
+                    defaultMenuButtonB = partsDisplayButtons[counter];
                     HighlightEquipped(partsDisplayButtons[counter]);
                     ApplyEquipText(equippedTexts[counter]);
                 }
@@ -151,6 +159,7 @@ public class MenuNavigationManager : MonoBehaviour
             {
                 if (partsDisplayButtons[counter].GetComponent<buttonContent>().myParts_r.partName == playerStat.weaponSlot.r_underbarrel.partName)
                 {
+                    defaultMenuButtonB = partsDisplayButtons[counter];
                     HighlightEquipped(partsDisplayButtons[counter]);
                     ApplyEquipText(equippedTexts[counter]);
                 }
@@ -160,6 +169,7 @@ public class MenuNavigationManager : MonoBehaviour
             {
                 if (partsDisplayButtons[counter].GetComponent<buttonContent>().myParts_r.partName == playerStat.weaponSlot.r_muzzle.partName)
                 {
+                    defaultMenuButtonB = partsDisplayButtons[counter];
                     HighlightEquipped(partsDisplayButtons[counter]);
                     ApplyEquipText(equippedTexts[counter]);
                 }
@@ -188,9 +198,6 @@ public class MenuNavigationManager : MonoBehaviour
 
     public void OnPartSelect(GameObject button)
     {
-        //play equip sound;
-        equipSFX.Play();
-
         //check partname;
         if (weaponPartHeaderB.text == "magazine")
         {
@@ -234,6 +241,16 @@ public class MenuNavigationManager : MonoBehaviour
             playerStat.weaponSlot.r_muzzle = button.GetComponent<buttonContent>().myParts_r;
         }
 
+        //play equip sound;
+        equipSFX.Play();
+
+    }
+
+
+    public void PlayEquipSFX()
+    {
+        //play equip sound;
+        equipSFX.Play();
     }
 
 
@@ -307,6 +324,129 @@ public class MenuNavigationManager : MonoBehaviour
             EventSystem.current.SetSelectedGameObject(null);
             EventSystem.current.SetSelectedGameObject(MenuButtonA_muzzle);
         }
+
+    }
+
+
+
+
+
+
+
+
+    public void PreviewStatChanges_Hover(GameObject hovered)
+    {
+        //get the item name and description and populate the UI (intentionally left blank for now);
+
+        //remember original part;
+        var partMemory = playerStat.weaponSlot.r_magazine;
+
+        //save current stat, index 0 - 6: dmg, impact, fireRate, accuracy, bullets, reloadTime, critRate;
+        List<float> currentStats = new List<float>();
+
+        currentStats.Add(playerStat.GetEffectiveDMG());
+        currentStats.Add(playerStat.GetEffectiveImpact());
+        currentStats.Add(playerStat.GetEffectiveFireRate());
+        currentStats.Add(playerStat.GetEffectiveAccuracy());
+        currentStats.Add(playerStat.GetEffectiveBullets());
+        currentStats.Add(playerStat.GetEffectiveReloadTime());
+        currentStats.Add(playerStat.GetEffectiveCritRate());
+
+
+        //set new parts for preview;
+        if (weaponPartHeaderB.text == "magazine")
+        {
+            partMemory = playerStat.weaponSlot.r_magazine;
+            playerStat.weaponSlot.r_magazine = hovered.GetComponent<buttonContent>().myParts_r;
+        }
+
+        if (weaponPartHeaderB.text == "grip")
+        {
+            partMemory = playerStat.weaponSlot.r_grip;
+            playerStat.weaponSlot.r_grip = hovered.GetComponent<buttonContent>().myParts_r;
+        }
+
+        if (weaponPartHeaderB.text == "trigger")
+        {
+            partMemory = playerStat.weaponSlot.r_trigger;
+            playerStat.weaponSlot.r_trigger = hovered.GetComponent<buttonContent>().myParts_r;
+        }
+
+        if (weaponPartHeaderB.text == "barrel")
+        {
+            partMemory = playerStat.weaponSlot.r_barrel;
+            playerStat.weaponSlot.r_barrel = hovered.GetComponent<buttonContent>().myParts_r;
+        }
+
+        if (weaponPartHeaderB.text == "sight")
+        {
+            partMemory = playerStat.weaponSlot.r_sight;
+            playerStat.weaponSlot.r_sight = hovered.GetComponent<buttonContent>().myParts_r;
+        }
+
+        if (weaponPartHeaderB.text == "underbarrel")
+        {
+            partMemory = playerStat.weaponSlot.r_underbarrel;
+            playerStat.weaponSlot.r_underbarrel = hovered.GetComponent<buttonContent>().myParts_r;
+        }
+
+        if (weaponPartHeaderB.text == "muzzle")
+        {
+            partMemory = playerStat.weaponSlot.r_muzzle;
+            playerStat.weaponSlot.r_muzzle = hovered.GetComponent<buttonContent>().myParts_r;
+        }
+
+
+        //save new stat
+        List<float> newStats = new List<float>();
+
+        newStats.Add(playerStat.GetEffectiveDMG());
+        newStats.Add(playerStat.GetEffectiveImpact());
+        newStats.Add(playerStat.GetEffectiveFireRate());
+        newStats.Add(playerStat.GetEffectiveAccuracy());
+        newStats.Add(playerStat.GetEffectiveBullets());
+        newStats.Add(playerStat.GetEffectiveReloadTime());
+        newStats.Add(playerStat.GetEffectiveCritRate());
+
+
+        //revert part;
+        if (weaponPartHeaderB.text == "magazine")
+        {
+            playerStat.weaponSlot.r_magazine = partMemory;
+        }
+
+        if (weaponPartHeaderB.text == "grip")
+        {
+            playerStat.weaponSlot.r_grip = partMemory;
+        }
+
+        if (weaponPartHeaderB.text == "trigger")
+        {
+            playerStat.weaponSlot.r_trigger = partMemory;
+        }
+
+        if (weaponPartHeaderB.text == "barrel")
+        {
+            playerStat.weaponSlot.r_barrel = partMemory;
+        }
+
+        if (weaponPartHeaderB.text == "sight")
+        {
+            playerStat.weaponSlot.r_sight = partMemory;
+        }
+
+        if (weaponPartHeaderB.text == "underbarrel")
+        {
+            playerStat.weaponSlot.r_underbarrel = partMemory;
+        }
+
+        if (weaponPartHeaderB.text == "muzzle")
+        {
+            playerStat.weaponSlot.r_muzzle = partMemory;
+        }
+
+        //compare stats and print positives and negative changes;
+        PrintStats(currentStats, newStats);
 
     }
 

@@ -168,8 +168,9 @@ public class MenuNavigationManager : MonoBehaviour
                 }
             }
 
-            //multiEventSys.SetSelectedGameObject(null);
-            //multiEventSys.SetSelectedGameObject(partsDisplayButtons[counter]);
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(defaultMenuButtonB); //back button
+
         }
 
     }

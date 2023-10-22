@@ -31,6 +31,8 @@ public class player : MonoBehaviour
     public bool isMoving; //i.e. input detected
     public bool isAtk;
 
+    public bool doNotAllowAtk; //false
+
     public Vector2 inputVec;
 
     public Vector3 direction;
@@ -90,12 +92,30 @@ public class player : MonoBehaviour
     public WeaponMenuManager rangeWeapMgr;
     public WeaponMenuManager meleeWeapMgr;
 
+    public Image cdBar;//weapon cooldowns
+
+    public float cdTemp;
+    public float cdToNxtAtk;
+
+    public spawncontroller spawnCont;
+
     void Start()
     {       
         selfHP = maxHP;
+        cdBar.fillAmount = 0;
         //lifeBar.fillAmount = selfHP / maxHP;
         //camFollowOffset = camFollow.transform.position - transform.position;
         //breathBar.fillAmount = 0;
+    }
+
+    private void Update()
+    {
+
+        if(cdBar.fillAmount > 0)
+        {
+            cdTemp -= Time.deltaTime;
+            cdBar.fillAmount = cdTemp / cdToNxtAtk;
+        }
     }
 
     // Update is called once per frame
@@ -126,7 +146,10 @@ public class player : MonoBehaviour
         {
             if (!isInvincible)
             {
-
+                spawnCont.killCount--;
+                if (spawnCont.killCount <= 0)
+                    spawnCont.killCount = 0;
+                spawnCont.currentScore.text = spawnCont.killCount.ToString();
                 for (int i = 0; i < meshes.Length; i++)
                     meshes[i].enabled = false;
 
@@ -335,14 +358,20 @@ public class player : MonoBehaviour
 
     void DoAtk()
     {
+        doNotAllowAtk = true;
+        cdBar.fillAmount = 1;
+
         if (selfAnim.runtimeAnimatorController == meleeCont)
-        {
+        {            
             meleeStats.effectiveDMG = statCont.GetEffectiveDMG();
             meleeStats.effectiveCRIT = statCont.GetEffectiveCritRate();
             meleeStats.effectiveDEF = statCont.GetEffectiveDEF();
             meleeStats.effectiveAOE = statCont.GetEffectiveAoE();
             meleeStats.effectiveCD = statCont.GetEffectiveCooldown();
-        }
+            StartCoroutine(LetsAllowMeleeAtk(meleeStats.effectiveCD));
+            cdToNxtAtk = meleeStats.effectiveCD;
+            cdTemp = cdToNxtAtk;
+        }       
 
         isAtk = true;
         ResetAnims();
@@ -352,6 +381,12 @@ public class player : MonoBehaviour
             SpawnBullet();
             gunSmoke.Play();
         }
+    }
+
+    IEnumerator LetsAllowMeleeAtk(float cd)
+    {
+        yield return new WaitForSeconds(cd);
+        doNotAllowAtk = false;
     }
 
     void FalsifyAtk()
@@ -481,7 +516,7 @@ public class player : MonoBehaviour
 
     public bool CanAttack()
     {
-        return !isAtk && !selfAnim.GetCurrentAnimatorStateInfo(0).IsName("gunfire") && !isDodge && Time.timeScale != 0;
+        return !isAtk && !selfAnim.GetCurrentAnimatorStateInfo(0).IsName("gunfire") && !isDodge && Time.timeScale != 0 && !doNotAllowAtk;
     }
 
     public void SpawnBullet()
@@ -495,7 +530,20 @@ public class player : MonoBehaviour
         damagestats sc = inst.GetComponent<damagestats>();
         sc.effectiveDMG = statCont.GetEffectiveDMG();
         sc.effectiveCRIT = statCont.GetEffectiveCritRate();
+        sc.effectiveFRATE = statCont.GetEffectiveFireRate();
+        sc.effectiveIMP = statCont.GetEffectiveImpact();
+        float fireCd = 2 - sc.effectiveFRATE;
+        cdToNxtAtk = fireCd;
+        cdTemp = cdToNxtAtk;
+        StartCoroutine(LetsAllowRangeAtk(fireCd));
         sc.myParent = this;
+    }
+
+    IEnumerator LetsAllowRangeAtk(float cd)
+    {
+        yield return new WaitForSeconds(cd);
+        doNotAllowAtk = false;
+        isAtk = false;
     }
 
     public void DmgPopUp(int theDmg, Vector3 thePos, Color theColor, Vector3 theSize)
@@ -507,7 +555,10 @@ public class player : MonoBehaviour
             {
                 myChild.transform.position = thePos;
                 tweenme sc = myChild.GetComponent<tweenme>();
-                sc.myText.text = theDmg.ToString();
+                if (theDmg > 0)
+                    sc.myText.text = theDmg.ToString();
+                else
+                    sc.myText.text = "miss";
                 sc.myText.color = theColor;
                 myChild.transform.localScale = theSize;
                 myChild.SetActive(true);

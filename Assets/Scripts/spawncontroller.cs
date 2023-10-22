@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class spawncontroller : MonoBehaviour
 {
@@ -28,6 +30,9 @@ public class spawncontroller : MonoBehaviour
     public bool startSpawn;
     public bool stageEnded;
     public GameObject spawnParent; //parent all spawns to this
+
+    public Image blackOut;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,6 +84,7 @@ public class spawncontroller : MonoBehaviour
                 timerCount.text = "";
                 startSpawn = false;
                 DestroyAllSpawns();
+                StartCoroutine(BackToTitle());
             }
 
             if (nextSpawnCd >= 0)
@@ -120,5 +126,23 @@ public class spawncontroller : MonoBehaviour
                 sc.DoKoStuff();
             }
         }
+    }
+
+    IEnumerator DoBlackOut()
+    {
+        CanvasGroup cvGroup = blackOut.GetComponent<CanvasGroup>();
+        while (cvGroup.alpha < 1)
+        {
+            cvGroup.alpha += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        SceneManager.LoadScene("Start");
+    }
+
+    IEnumerator BackToTitle()
+    {
+        yield return new WaitForSeconds(3);
+        StartCoroutine(DoBlackOut());
+        
     }
 }

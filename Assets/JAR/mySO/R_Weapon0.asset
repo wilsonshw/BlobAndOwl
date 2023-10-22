@@ -24,7 +24,7 @@ MonoBehaviour:
   r_trigger: {fileID: 11400000, guid: 17da78fc2032e7941beca30d77a6d4bd, type: 2}
   r_barrel: {fileID: 11400000, guid: 45757aee084f3d549ac9a80509a70ae3, type: 2}
   r_muzzle: {fileID: 11400000, guid: 724d99867f7a3334486d951557c52e9a, type: 2}
-  r_underbarrel: {fileID: 11400000, guid: 9ed294723b9f59e4988c07bb57e7e051, type: 2}
+  r_underbarrel: {fileID: 11400000, guid: 8af3484184fe0eb47b11eceae46e2fc3, type: 2}
   r_sight: {fileID: 11400000, guid: 7e9e610821401414fb3ebe6484526974, type: 2}
   myParts_m: []
   myParts_r:

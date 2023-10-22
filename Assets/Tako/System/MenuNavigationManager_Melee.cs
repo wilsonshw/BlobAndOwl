@@ -30,8 +30,9 @@ public class MenuNavigationManager_Melee : MonoBehaviour
 
     [SerializeField] AudioSource equipSFX;
 
-    private bool inMenuA = true; //used to check if in the outer menu or the detailed menu;
+    public bool inMenuA = true; //used to check if in the outer menu or the detailed menu;
     public MultiplayerEventSystem multiEventSys;
+    public Button[] menuAButtons;
 
     //======================== Button Functions ========================
 
@@ -128,7 +129,8 @@ public class MenuNavigationManager_Melee : MonoBehaviour
                     ApplyEquipText(equippedTexts[counter]);
                 }
             }
-
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(partsDisplayButtons[counter]);
         }
 
     }
@@ -208,9 +210,8 @@ public class MenuNavigationManager_Melee : MonoBehaviour
 
     public void OnBackPress_WeaponPart()
     {
-        weaponMenuPanel.DOLocalMoveX(0f, 0.5f, true).SetUpdate(true);
-        inMenuA = true;
-
+        TweenBackHome();
+        EnableButtons();
         //memory cursor - sends you back to the correct category button before switching to menu B;
         if (weaponPartHeaderB.text == "pommel")
         {
@@ -238,11 +239,17 @@ public class MenuNavigationManager_Melee : MonoBehaviour
         
     }
 
+    public void TweenBackHome()
+    {
+        inMenuA = true;
+        weaponMenuPanel.DOLocalMoveX(0f, 0.5f, true).SetUpdate(true);
+    }
 
-
-
-
-
+    public void EnableButtons()
+    {
+        for (int i = 0; i < menuAButtons.Length; i++)
+            menuAButtons[i].interactable = true;
+    }
 
 
     public void PreviewStatChanges_Hover(GameObject hovered)

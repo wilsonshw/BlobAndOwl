@@ -71,6 +71,7 @@ public class player : MonoBehaviour
 
     public UI_manager ourMenu;
     public GameObject defaultMenuButton;
+    public GameObject partnerDefaultMenuButton;
     public JAR_StatController statCont;
 
     public damagestats meleeStats;
@@ -81,6 +82,13 @@ public class player : MonoBehaviour
     public SkinnedMeshRenderer[] skinnedMeshes;
 
     public MultiplayerEventSystem multiEventSys;
+    public MultiplayerEventSystem partnerMultiEventSys;
+
+    public Button[] menuAButtons_r;
+    public Button[] menuAButtons_m;
+
+    public WeaponMenuManager rangeWeapMgr;
+    public WeaponMenuManager meleeWeapMgr;
 
     void Start()
     {       
@@ -90,9 +98,6 @@ public class player : MonoBehaviour
         //breathBar.fillAmount = 0;
     }
 
-    private void Update()
-    {
-    }
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -368,6 +373,9 @@ public class player : MonoBehaviour
             multiEventSys.SetSelectedGameObject(null);
             multiEventSys.SetSelectedGameObject(defaultMenuButton);
 
+            partnerMultiEventSys.SetSelectedGameObject(null);
+            partnerMultiEventSys.SetSelectedGameObject(partnerDefaultMenuButton);
+
             Time.timeScale = 0;
         }
         else
@@ -376,6 +384,25 @@ public class player : MonoBehaviour
             ourMenu.myMenu.GetComponent<MenuNavigationManager>().OnBackPress_WeaponPart();
             ourMenu.myMenu.SetActive(false);
 
+            for (int i = 0; i < menuAButtons_r.Length; i++)
+                menuAButtons_r[i].interactable = true;
+
+            for (int i = 0; i < menuAButtons_m.Length; i++)
+                menuAButtons_m[i].interactable = true;
+
+            if (rangeWeapMgr)
+            {
+                rangeWeapMgr.OverViewInstant();
+                rangeWeapMgr.isOverview = true;
+                rangeWeapMgr.isDetailedView = false;
+            }
+
+            if (meleeWeapMgr)
+            {
+                meleeWeapMgr.OverViewInstant();
+                meleeWeapMgr.isOverview = true;
+                meleeWeapMgr.isDetailedView = false;
+            }
             //JAR: undo cursor locks;
             //Cursor.visible = true;
             //Cursor.lockState = CursorLockMode.None;
@@ -485,6 +512,32 @@ public class player : MonoBehaviour
                 myChild.transform.localScale = theSize;
                 myChild.SetActive(true);
                 break;
+            }
+        }
+    }
+
+    public void OnCancel(InputAction.CallbackContext value)
+    {
+        if(value.performed)
+        {
+            if(rangeWeapMgr)
+            {
+                if(!rangeWeapMgr.isOverview && rangeWeapMgr.isDetailedView)
+                {
+                    rangeWeapMgr.MoveToOverviewPage();
+                    rangeWeapMgr.isOverview = true;
+                    rangeWeapMgr.isDetailedView = false;
+                }
+            }
+
+            if(meleeWeapMgr)
+            {
+                if(!meleeWeapMgr.isOverview && meleeWeapMgr.isDetailedView)
+                {
+                    meleeWeapMgr.MoveToOverviewPage();
+                    meleeWeapMgr.isOverview = true;
+                    meleeWeapMgr.isDetailedView = false;
+                }
             }
         }
     }

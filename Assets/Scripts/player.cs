@@ -75,11 +75,12 @@ public class player : MonoBehaviour
 
     public damagestats meleeStats;
 
-
     public GameObject popupParent;
 
     public MeshRenderer[] meshes;
     public SkinnedMeshRenderer[] skinnedMeshes;
+
+    public MultiplayerEventSystem multiEventSys;
 
     void Start()
     {       
@@ -364,8 +365,8 @@ public class player : MonoBehaviour
             //JAR: set up default button placement on menu open;
             //Cursor.visible = false;
             //Cursor.lockState = CursorLockMode.Locked;
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(defaultMenuButton);
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(defaultMenuButton);
 
             Time.timeScale = 0;
         }

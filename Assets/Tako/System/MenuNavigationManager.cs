@@ -5,6 +5,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.InputSystem.UI;
 
 public class MenuNavigationManager : MonoBehaviour
 {
@@ -35,18 +36,7 @@ public class MenuNavigationManager : MonoBehaviour
 
     private bool inMenuA = true; //used to check if in the outer menu or the detailed menu;
 
-    private void Update()
-    {
-
-        //BANDAID fix for "clicking while in menu" issue;
-        /*if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
-        {
-            EventSystem.current.SetSelectedGameObject(null);
-            if (inMenuA) { EventSystem.current.SetSelectedGameObject(defaultMenuButtonA); }
-            else { EventSystem.current.SetSelectedGameObject(defaultMenuButtonB); }
-        }*/
-
-    }
+    public MultiplayerEventSystem multiEventSys;
 
     //======================== Button Functions ========================
 
@@ -63,8 +53,8 @@ public class MenuNavigationManager : MonoBehaviour
         inMenuA = false;
 
         //JAR: set up default button placement on menu open;
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(defaultMenuButtonB); //back button
+        multiEventSys.SetSelectedGameObject(null);
+        multiEventSys.SetSelectedGameObject(defaultMenuButtonB); //back button
 
 
         //processing menu B (according to part type);
@@ -257,7 +247,7 @@ public class MenuNavigationManager : MonoBehaviour
     public void RevertButtonColour()
     {
         //tag the currently equipped button;
-        GameObject exemptButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        GameObject exemptButton = multiEventSys.currentSelectedGameObject;
 
         //reset the colours of anything other than the currently equipped button;
         for (int counter = 0; counter < partsDisplayButtons.Count; counter++)
@@ -285,44 +275,44 @@ public class MenuNavigationManager : MonoBehaviour
         //memory cursor - sends you back to the correct category button before switching to menu B;
         if (weaponPartHeaderB.text == "magazine")
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(defaultMenuButtonA);
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(defaultMenuButtonA);
         }
 
         if (weaponPartHeaderB.text == "grip")
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(MenuButtonA_grip);
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(MenuButtonA_grip);
         }
 
         if (weaponPartHeaderB.text == "trigger")
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(MenuButtonA_trigger);
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(MenuButtonA_trigger);
         }
 
         if (weaponPartHeaderB.text == "barrel")
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(MenuButtonA_barrel);
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(MenuButtonA_barrel);
         }
 
         if (weaponPartHeaderB.text == "sight")
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(MenuButtonA_sight);
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(MenuButtonA_sight);
         }
 
         if (weaponPartHeaderB.text == "underbarrel")
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(MenuButtonA_underbarrel);
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(MenuButtonA_underbarrel);
         }
 
         if (weaponPartHeaderB.text == "muzzle")
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(MenuButtonA_muzzle);
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(MenuButtonA_muzzle);
         }
 
     }
@@ -474,43 +464,43 @@ public class MenuNavigationManager : MonoBehaviour
         if (weaponPartHeaderB.text == "magazine")
         {
             partMemory = playerStat.weaponSlot.r_magazine;
-            playerStat.weaponSlot.r_magazine = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
+            playerStat.weaponSlot.r_magazine = multiEventSys.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
         }
 
         if (weaponPartHeaderB.text == "grip")
         {
             partMemory = playerStat.weaponSlot.r_grip;
-            playerStat.weaponSlot.r_grip = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
+            playerStat.weaponSlot.r_grip = multiEventSys.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
         }
 
         if (weaponPartHeaderB.text == "trigger")
         {
             partMemory = playerStat.weaponSlot.r_trigger;
-            playerStat.weaponSlot.r_trigger = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
+            playerStat.weaponSlot.r_trigger = multiEventSys.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
         }
 
         if (weaponPartHeaderB.text == "barrel")
         {
             partMemory = playerStat.weaponSlot.r_barrel;
-            playerStat.weaponSlot.r_barrel = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
+            playerStat.weaponSlot.r_barrel = multiEventSys.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
         }
 
         if (weaponPartHeaderB.text == "sight")
         {
             partMemory = playerStat.weaponSlot.r_sight;
-            playerStat.weaponSlot.r_sight = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
+            playerStat.weaponSlot.r_sight = multiEventSys.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
         }
 
         if (weaponPartHeaderB.text == "underbarrel")
         {
             partMemory = playerStat.weaponSlot.r_underbarrel;
-            playerStat.weaponSlot.r_underbarrel = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
+            playerStat.weaponSlot.r_underbarrel = multiEventSys.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
         }
 
         if (weaponPartHeaderB.text == "muzzle")
         {
             partMemory = playerStat.weaponSlot.r_muzzle;
-            playerStat.weaponSlot.r_muzzle = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
+            playerStat.weaponSlot.r_muzzle = multiEventSys.currentSelectedGameObject.GetComponent<buttonContent>().myParts_r;
         }
 
 
@@ -607,7 +597,7 @@ public class MenuNavigationManager : MonoBehaviour
 
 
 
-    //Debug.Log(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name);
+    //Debug.Log(UnityEngine.EventSystems.multiEventSys.currentSelectedGameObject.name);
 
 
 }

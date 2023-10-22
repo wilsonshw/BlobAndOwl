@@ -5,6 +5,7 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.InputSystem.UI;
 
 public class MenuNavigationManager_Melee : MonoBehaviour
 {
@@ -30,20 +31,7 @@ public class MenuNavigationManager_Melee : MonoBehaviour
     [SerializeField] AudioSource equipSFX;
 
     private bool inMenuA = true; //used to check if in the outer menu or the detailed menu;
-
-
-    private void Update()
-    {
-
-        //BANDAID fix for "clicking while in menu" issue;
-        /*if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
-        {
-            EventSystem.current.SetSelectedGameObject(null);
-            if (inMenuA) { EventSystem.current.SetSelectedGameObject(defaultMenuButtonA); }
-            else { EventSystem.current.SetSelectedGameObject(defaultMenuButtonB); }
-        }*/
-
-    }
+    public MultiplayerEventSystem multiEventSys;
 
     //======================== Button Functions ========================
 
@@ -60,8 +48,8 @@ public class MenuNavigationManager_Melee : MonoBehaviour
         inMenuA = false;
 
         //JAR: set up default button placement on menu open;
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(defaultMenuButtonB); //back button
+        multiEventSys.SetSelectedGameObject(null);
+        multiEventSys.SetSelectedGameObject(defaultMenuButtonB); //back button
 
 
         //processing menu B (according to part type);
@@ -198,7 +186,7 @@ public class MenuNavigationManager_Melee : MonoBehaviour
     public void RevertButtonColour()
     {
         //tag the currently equipped button;
-        GameObject exemptButton = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject;
+        GameObject exemptButton = multiEventSys.currentSelectedGameObject;
 
         //reset the colours of anything other than the currently equipped button;
         for (int counter = 0; counter < partsDisplayButtons.Count; counter++)
@@ -226,26 +214,26 @@ public class MenuNavigationManager_Melee : MonoBehaviour
         //memory cursor - sends you back to the correct category button before switching to menu B;
         if (weaponPartHeaderB.text == "pommel")
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(defaultMenuButtonA);
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(defaultMenuButtonA);
         }
 
         if (weaponPartHeaderB.text == "grip")
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(MenuButtonA_grip);
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(MenuButtonA_grip);
         }
 
         if (weaponPartHeaderB.text == "crossguard")
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(MenuButtonA_crossguard);
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(MenuButtonA_crossguard);
         }
 
         if (weaponPartHeaderB.text == "blade")
         {
-            EventSystem.current.SetSelectedGameObject(null);
-            EventSystem.current.SetSelectedGameObject(MenuButtonA_blade);
+            multiEventSys.SetSelectedGameObject(null);
+            multiEventSys.SetSelectedGameObject(MenuButtonA_blade);
         }
         
     }
@@ -356,25 +344,25 @@ public class MenuNavigationManager_Melee : MonoBehaviour
         if (weaponPartHeaderB.text == "pommel")
         {
             partMemory = playerStat.weaponSlot.m_pommel;
-            playerStat.weaponSlot.m_pommel = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<buttonContent>().myParts_m;
+            playerStat.weaponSlot.m_pommel = multiEventSys.currentSelectedGameObject.GetComponent<buttonContent>().myParts_m;
         }
 
         if (weaponPartHeaderB.text == "grip")
         {
             partMemory = playerStat.weaponSlot.m_grip;
-            playerStat.weaponSlot.m_grip = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<buttonContent>().myParts_m;
+            playerStat.weaponSlot.m_grip = multiEventSys.currentSelectedGameObject.GetComponent<buttonContent>().myParts_m;
         }
 
         if (weaponPartHeaderB.text == "crossguard")
         {
             partMemory = playerStat.weaponSlot.m_crossGuard;
-            playerStat.weaponSlot.m_crossGuard = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<buttonContent>().myParts_m;
+            playerStat.weaponSlot.m_crossGuard = multiEventSys.currentSelectedGameObject.GetComponent<buttonContent>().myParts_m;
         }
 
         if (weaponPartHeaderB.text == "blade")
         {
             partMemory = playerStat.weaponSlot.m_blade;
-            playerStat.weaponSlot.m_blade = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.GetComponent<buttonContent>().myParts_m;
+            playerStat.weaponSlot.m_blade = multiEventSys.currentSelectedGameObject.GetComponent<buttonContent>().myParts_m;
         }
 
         //save new stat
@@ -451,7 +439,7 @@ public class MenuNavigationManager_Melee : MonoBehaviour
 
 
 
-    //Debug.Log(UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name);
+    //Debug.Log(UnityEngine.EventSystems.multiEventSys.currentSelectedGameObject.name);
 
 
 }
